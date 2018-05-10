@@ -48,6 +48,6 @@ for item in coords:
     list_lat = []
     list_lon = []
     name = str(j)
-    name = "map" + name
+    name = "map" + name + ".html"
     gmap.draw(name)
     j += 1
