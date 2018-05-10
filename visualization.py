@@ -3,8 +3,8 @@ from ast import literal_eval
 import gmplot
 
 trainSet = pd.read_csv(
-'train_set.csv', # replace with the correct path
-converters={"Trajectory": literal_eval}
+    'train_set.csv', # replace with the correct path
+    converters={"Trajectory": literal_eval}
 )
 
 # tripId is with the other columns
@@ -27,7 +27,7 @@ for journey in journeys:
             break
 
 print diff_journeys
-print diff_journeys_id
+#print diff_journeys_id
 
 # Created a list
 lat = []
@@ -36,12 +36,18 @@ list_lat = []
 list_lon = []
 coords = trainSet['Trajectory']
 coords = coords[0:5]
+j = 0
+
 for item in coords:
     for i in item:
         x, y, z = i
-        lat.append(x)
-        lon.append(y)
-    list_lat.append(lat)
-    list_lon.append(lon)
-    lat = []
-    lon = []
+        list_lat.append(z)
+        list_lon.append(y)
+    gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
+    gmap.plot(list_lat, list_lon, color='#008000')
+    list_lat = []
+    list_lon = []
+    name = str(j)
+    name = "map" + name
+    gmap.draw(name)
+    j += 1
