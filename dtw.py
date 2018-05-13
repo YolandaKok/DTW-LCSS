@@ -2,6 +2,7 @@ import pandas as pd
 from ast import literal_eval
 import gmplot
 import fastdtw
+from sklearn.neighbors.dist_metrics import DistanceMetric
 
 #take the train set and teh test set
 trainSet = pd.read_csv(
@@ -16,3 +17,5 @@ testSet = pd.read_csv(
 
 #print trainSet.shape
 #print testSet.shape
+
+haversine = DistanceMetric.get_metric("haversine")
