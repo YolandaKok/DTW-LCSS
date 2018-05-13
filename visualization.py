@@ -30,8 +30,6 @@ print diff_journeys
 #print diff_journeys_id
 
 # Created a list
-lat = []
-lon = []
 list_lat = []
 list_lon = []
 coords = trainSet['Trajectory']
