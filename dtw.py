@@ -60,7 +60,7 @@ for test_item in coords_final_test:
     # find the distance
     for train_item in coords_final_train:
         distance, path = fastdtw(test_item, train_item[0], dist=haversine)
-        heapq.heappush(distances,(distance,train_item[1]))
+        heapq.heappush(distances,(distance,train_item))
     for i in range(5):
         print heapq.heappop(distances)
     distances = []
