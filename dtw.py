@@ -1,6 +1,7 @@
 import pandas as pd
 from ast import literal_eval
 import gmplot
+import fastdtw
 
 #take the train set and teh test set
 trainSet = pd.read_csv(
@@ -14,4 +15,4 @@ testSet = pd.read_csv(
 )
 
 #print trainSet.shape
-print testSet.shape
+#print testSet.shape
