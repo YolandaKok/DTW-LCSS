@@ -6,6 +6,8 @@ from haversine import haversine
 import numpy as np
 from fastdtw import fastdtw
 import heapq
+#from sklearn.neighbors.dist_metrics import DistanceMetric
+
 #take the train set and teh test set
 trainSet = pd.read_csv(
     'train_set.csv', # replace with the correct path
@@ -66,3 +68,5 @@ for test_item in coords_final_test:
 
 #print trainSet.shape
 #print testSet.shape
+
+haversine = DistanceMetric.get_metric("haversine")
