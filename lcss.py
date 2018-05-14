@@ -38,6 +38,8 @@ match_points = 0
 match_lat = []
 match_lon = []
 match = []
+k = 0
+h = 0
 
 #for every journey in test_set
 for test_coord in test_coords:
@@ -67,38 +69,55 @@ for test_coord in test_coords:
                 point_distance = haversine(test_list[i], train_list[i], miles=False)
                 if point_distance =< 200:
                     match_points += 1
-                    x, y = test_list[i]
+                    x, y = train_list[i]
                     match_lat.append(x)
                     match_lon.append(y)
-                    heapq.heappush(match,(match_points, match_lon, match_lat, train_list_lon, train_list_lat))
+                    heapq.heappush(match,(match_points, match_lon, match_lat, train_list_lon, train_list_lat, train_id[h]))
         else:
             for i in train_list:
                 point_distance = haversine(test_list[i], train_list[i], miles=False)
                 if point_distance =< 200:
                     match_points += 1
-                    x, y = test_list[i]
+                    x, y = train_list[i]
                     match_lat.append(x)
                     match_lon.append(y)
-                    heapq.heappush(match,(match_points, match_lon, match_lat, train_list_lon, train_list_lat))
-
+                    heapq.heappush(match,(match_points, match_lon, match_lat, train_list_lon, train_list_lat, train_id[h]))
+        h += 1
         train_list_lat = []
         train_list_lon = []
         train_list = []
-        test_list_lat = []
-        test_list_lon = []
-        test_list = []
+        match_points = []
+        match_lon = []
+        match_lat = []
 
-        #take the first 5 with the best match points
-        for i in range(5):
-            match_points, match_lon, match_lat, train_list_lon, train_list_lat = heapq.heappop(distances)
-            result = None
-            while result is None:
-                try:
-                    lat, lon = zip(*test_item)
-                    gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
-                    gmap.plot(lat, lon, color='#008000', edge_width=3)
-                    name = "Test Trip" + str(k) + ".html"
-                    gmap.draw(name)
-                    result = 1
-                except IndexError:
-                    pass
+    #take the first 5 with the best match points
+    result = None
+    while result is None:
+        try:
+            gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
+            #green part for the journey
+            gmap.plot(test_list_lat, test_list_lon, color='#008000', edge_width=3)
+            name = "Test" + str(k) + ".html"
+            gmap.draw(name)
+            result = 1
+        except IndexError:
+            pass
+    for i in range(5):
+        match_points, match_lon, match_lat, train_list_lon, train_list_lat, train_id = heapq.heappop(distances)
+        result = None
+        while result is None:
+            try:
+                gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
+                #green part for the journey
+                gmap.plot(train_list_lat, train_list_lon, color='#008000', edge_width=3)
+                #red part for the matching points
+                gmap.plot(match_lat, match_lon, color='#FF0000', edge_width=3)
+                name = "n" + str(k) + str(train_id) + ".html"
+                gmap.draw(name)
+                result = 1
+            except IndexError:
+                pass
+    k += 1
+    test_list = []
+    test_list_lat = []
+    test_list_lon = []
