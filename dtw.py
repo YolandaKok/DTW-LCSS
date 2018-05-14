@@ -56,14 +56,22 @@ distances = []
 # Ok now we have the two lists and we have to calculate the distance
 
 # Calculate the distance
+lat = []
+lon = []
 for test_item in coords_final_test:
     # find the distance
     for train_item in coords_final_train:
         distance, path = fastdtw(test_item, train_item[0], dist=haversine)
         heapq.heappush(distances,(distance,train_item))
     for i in range(5):
-        print heapq.heappop(distances)
+        dist = heapq.heappop(distances)
+        lat, lon = zip(*dist[1][0])
+        gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
+        gmap.plot(lat, lon, color='#008000', edge_width=3)
+        gmap.draw("hey1.html")
     distances = []
+    lat = []
+    lon = []
     print "next trip"
 
 #print trainSet.shape
