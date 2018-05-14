@@ -1,0 +1,60 @@
+0.0 km
+01501001journeyPatternId
+3.51027542309 km
+01501001journeyPatternId
+3.79078798424 km
+01501001journeyPatternId
+3.99161597352 km
+01501001journeyPatternId
+4.11536447233 km
+01501001journeyPatternId
+57.6175050735 sec
+next trip
+0.0 km
+01200001journeyPatternId
+2.79253834528 km
+01200001journeyPatternId
+3.37155283205 km
+01200001journeyPatternId
+3.38822974422 km
+01200001journeyPatternId
+3.47847778708 km
+01200001journeyPatternId
+47.256939888 sec
+next trip
+0.0 km
+00791001journeyPatternId
+4.69811541367 km
+00791001journeyPatternId
+4.76790562542 km
+00791001journeyPatternId
+4.80277955796 km
+00791001journeyPatternId
+4.86698044166 km
+00791001journeyPatternId
+59.4020209312 sec
+next trip
+0.0 km
+00010002journeyPatternId
+2.45555901977 km
+00010002journeyPatternId
+2.84590172819 km
+00010002journeyPatternId
+3.21060329842 km
+00010002journeyPatternId
+3.45813089732 km
+00010002journeyPatternId
+50.2228209972 sec
+next trip
+0.0 km
+01300001journeyPatternId
+4.31391065409 km
+01300001journeyPatternId
+4.46726121545 km
+01300001journeyPatternId
+4.6400373459 km
+01300001journeyPatternId
+4.6903051312 km
+01300001journeyPatternId
+47.0410311222 sec
+next trip
