@@ -54,7 +54,7 @@ for item in coords_test:
 
 distances = []
 # Ok now we have the two lists and we have to calculate the distance
-
+# Ok
 # Calculate the distance
 lat = []
 lon = []
