@@ -26,9 +26,6 @@ for journey in journeys:
         if(len(diff_journeys) == 5):
             break
 
-print diff_journeys
-#print diff_journeys_id
-
 # Created a list
 list_lat = []
 list_lon = []
@@ -41,11 +38,21 @@ for item in coords:
         x, y, z = i
         list_lat.append(z)
         list_lon.append(y)
-    gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
-    gmap.plot(list_lat, list_lon, color='#008000')
+    result1 = None
+    while result1 is None:
+        try:
+            gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
+            gmap.plot(list_lat, list_lon, color='#008000', edge_width=3)
+            # dist[0] == idJourney
+            name = str(j)
+            name = "map" + name + ".html"
+            gmap.draw(name)
+            result1 = 1
+        except IndexError:
+            pass
     list_lat = []
     list_lon = []
-    name = str(j)
-    name = "map" + name + ".html"
-    gmap.draw(name)
     j += 1
+
+print diff_journeys
+print diff_journeys_id
