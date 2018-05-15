@@ -47,8 +47,6 @@ def LCSS (train_list, test_list):
             match.append(train_list[i-1])
             i -= 1
             j -= 1
-        else:
-            print "Huston, we have a problem"
 
     #return the match_points and the match
     return (match_points, match)
@@ -59,8 +57,6 @@ trainSet = pd.read_csv(
     'train_set.csv', # replace with the correct path
     converters={"Trajectory": literal_eval}
 )
-
-trainSet = trainSet[0:1000]
 
 testSet = pd.read_csv(
     'test_set_a2.csv', # replace with the correct path
@@ -77,9 +73,11 @@ id = 0
 test_id = 0
 match_list = []
 
-#print len(test_coords)
 #for every journey in test_set
 for test_coord in test_coords:
+    # Start the clock
+    start = time.time()
+
     for i in test_coord:
         t, y, x = i
         test_list.append([x,y])
@@ -92,18 +90,49 @@ for test_coord in test_coords:
 
         (match_points, match) = LCSS (train_list, test_list)
         #make the heap
-        heapq.heappush(match_list,(match_points, match, train_id, train_list))
-
+        heapq.heappush(match_list,(-1*match_points, match, train_id, train_list))
         id += 1
         train_list = []
 
+    #plot the test journey and start ploting the neighbours
+    result = None
+    while result is None:
+        try:
+            lat, lon = zip(*test_list)
+            gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
+            gmap.plot(lat, lon, color='#008000', edge_width=3)
+            name = "Test Trip" + str(test_id) + ".html"
+            gmap.draw(name)
+            result = 1
+        except IndexError:
+            pass
+
     #pop the heap and find the 5 nearest neighbours
     for i in range(5):
-        match_points, match, train_id, train_list = heapq.heappop(match_list)
-        print "mp: " + str(match_points) + str(train_id)
+        match_points, m, t_id, t_list = heapq.heappop(match_list)
+        match_points = match_points * -1
+        result = None
+        while result is None:
+            try:
+                lat, lon = zip(* t_list)
+                gmap = gmplot.GoogleMapPlotter.from_geocode("Dublin")
+                gmap.plot(lat, lon, color='#008000', edge_width=3)
+                result = 1
+            except IndexError:
+                pass
+        if match_points != 0:
+            lat, lon = zip(* m)
+            gmap.plot(lat, lon, color='#FF0000', edge_width=3)
+
+        name = "test" + str(test_id) + "n" + str(i) + ".html"
+        gmap.draw(name)
 
     match_list = []
     test_list = []
     id = 0
     test_id += 1
+    end = time.time()
+    # Time elapsed
+    elapsed = end - start
+    print str(elapsed) + " sec"
     print "next trip"
