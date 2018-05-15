@@ -90,7 +90,7 @@ for test_coord in test_coords:
 
         (match_points, match) = LCSS (train_list, test_list)
         #make the heap
-        heapq.heappush(match_list,(-1*match_points, match, train_id, train_list))
+        heapq.heappush(match_list,(-1*match_points, match, train_id[id], train_list))
         id += 1
         train_list = []
 
@@ -110,6 +110,7 @@ for test_coord in test_coords:
     #pop the heap and find the 5 nearest neighbours
     for i in range(5):
         match_points, m, t_id, t_list = heapq.heappop(match_list)
+        print t_id + str(match_points)
         match_points = match_points * -1
         result = None
         while result is None:
