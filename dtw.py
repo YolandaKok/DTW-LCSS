@@ -9,7 +9,7 @@ import heapq
 import time
 #from sklearn.neighbors.dist_metrics import DistanceMetric
 
-#take the train set and teh test set
+#take the train set and the test set
 trainSet = pd.read_csv(
     'train_set.csv', # replace with the correct path
     converters={"Trajectory": literal_eval}
