@@ -13,20 +13,25 @@ def majorityVoting(idList):
         if not idList[i] in ids:
             heapq.heappush(ids, idList[i])
 
+    #print ids
     listLen = len(ids)
+    #print listLen
     if listLen == 1:
         return ids[0]
     #check for the most appearing id
     else:
         n = 0
         times = idList.count(ids[0])
+        #print times
+
         for i in range(listLen):
             count = idList.count(ids[i])
+            #print count
             if count > times:
                 times = count
                 n = i
 
-        return ids[i]
+        return ids[n]
 
 # Find the K nearest neighbors
 def findNeighbors(trainData, trainId, testData):
@@ -53,7 +58,7 @@ def findNeighbors(trainData, trainId, testData):
 
     neighbors = []
     #push the 5 neighbors that are closer
-    for i in range(5):
+    for i in range(2):
         distance, id = heapq.heappop(idList)
         neighbors.append(id)
 
@@ -69,12 +74,14 @@ trainSet = pd.read_csv(
     converters={"Trajectory": literal_eval}
 )
 
-trainSet = trainSet[0:100]
+trainSet = trainSet[0:200]
 
 testSet = pd.read_csv(
-    'test_set.csv', # replace with the correct path
+    'train_set.csv', # replace with the correct path
     converters={"Trajectory": literal_eval}
 )
+
+testSet = testSet[0:2]
 
 train_id = trainSet['journeyPatternId']
 train_coords = trainSet['Trajectory']
