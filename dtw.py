@@ -1,13 +1,11 @@
 import pandas as pd
 from ast import literal_eval
 import gmplot
-import fastdtw
 from haversine import haversine
 import numpy as np
 from fastdtw import fastdtw
 import heapq
 import time
-#from sklearn.neighbors.dist_metrics import DistanceMetric
 
 #take the train set and the test set
 trainSet = pd.read_csv(
@@ -27,6 +25,8 @@ testSet = pd.read_csv(
 # Create a list with [lat, lon] for train_data
 coords_list_train = []
 coords_final_train = []
+test_time = []
+train_time = []
 coords = trainSet['Trajectory']
 train_id = trainSet['journeyPatternId']
 
@@ -60,6 +60,7 @@ distances = []
 lat = []
 lon = []
 k = 0
+z = 0
 for test_item in coords_final_test:
     # Start the clock
     start = time.time()
@@ -79,6 +80,7 @@ for test_item in coords_final_test:
     for train_item in coords_final_train:
         distance, path = fastdtw(test_item, train_item[0], dist=haversine)
         heapq.heappush(distances,(distance,train_item))
+        z += 1
     for i in range(5):
         dist = heapq.heappop(distances)
         lat, lon = zip(*dist[1][0])
@@ -90,6 +92,7 @@ for test_item in coords_final_test:
                 # dist[0] == idJourney
                 name = dist[1][1] + "_" + str(i) + ".html"
                 gmap.draw(name)
+
                 print str(dist[0]) + " km"
                 print dist[1][1] + "journeyPatternId"
                 result1 = 1
@@ -104,6 +107,7 @@ for test_item in coords_final_test:
     lon = []
     print "next trip"
     k += 1
+    z = 0
 
 #print trainSet.shape
 #print testSet.shape
