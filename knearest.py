@@ -8,18 +8,7 @@ import sklearn
 from sklearn.model_selection import KFold
 
 def majorityVoting(idList):
-    countHeap = []
-
-    for i in idList:
-        dist, id = i
-        count = idList.count(id)
-        heapq.heappush(count, (-1*count, i))
-
-    print idList
-    i = list(set(heap))
-    id, count, distance =  i[0]
-
-    return id
+    return "nothing"
 
 
 # Find the K nearest neighbors
