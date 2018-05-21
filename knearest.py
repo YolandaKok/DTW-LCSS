@@ -1,37 +1,26 @@
 import pandas as pd
-from ast import literal_eval
 import gmplot
-from fastdtw import fastdtw
 import heapq
+from ast import literal_eval
+from fastdtw import fastdtw
 from haversine import haversine
+import sklearn
+from sklearn.model_selection import KFold
 
 def majorityVoting(idList):
-    ids = []
-    listLen = len(idList)
+    countHeap = []
 
-    for i in range(listLen):
-        if not idList[i] in ids:
-            heapq.heappush(ids, idList[i])
+    for i in idList:
+        dist, id = i
+        count = idList.count(id)
+        heapq.heappush(count, (-1*count, i))
 
-    #print ids
-    listLen = len(ids)
-    #print listLen
-    if listLen == 1:
-        return ids[0]
-    #check for the most appearing id
-    else:
-        n = 0
-        times = idList.count(ids[0])
-        #print times
+    print idList
+    i = list(set(heap))
+    id, count, distance =  i[0]
 
-        for i in range(listLen):
-            count = idList.count(ids[i])
-            #print count
-            if count > times:
-                times = count
-                n = i
+    return id
 
-        return ids[n]
 
 # Find the K nearest neighbors
 def findNeighbors(trainData, trainId, testData):
@@ -57,38 +46,33 @@ def findNeighbors(trainData, trainId, testData):
         id += 1
 
     neighbors = []
-    #push the 5 neighbors that are closer
-    for i in range(2):
-        distance, id = heapq.heappop(idList)
-        neighbors.append(id)
+    #get the 5 neighbors that are closer
+    for i in range(5):
+        neighbors.append(heapq.heappop(idList))
 
     #Majority voting take the id with the most apperances in the idList
     return majorityVoting(neighbors)
 
 
 #main program
-
-#take the train set and the test set
+#take the train set
 trainSet = pd.read_csv(
     'train_set.csv', # replace with the correct path
     converters={"Trajectory": literal_eval}
 )
 
-trainSet = trainSet[0:200]
+trainSet = trainSet[0:100]
 
-testSet = pd.read_csv(
-    'train_set.csv', # replace with the correct path
-    converters={"Trajectory": literal_eval}
-)
+train_set_coords = trainSet['Trajectory']
+train_set_categories = trainSet['journeyPatternId']
 
-testSet = testSet[0:2]
+kf = KFold(n_splits=10)
+for train_indexes, test_indexes in kf.split(trainSet):
 
-train_id = trainSet['journeyPatternId']
-train_coords = trainSet['Trajectory']
-test_coords = testSet['Trajectory']
+    features_train = [train_set_coords[i] for i in train_indexes]
+    features_test = [train_set_coords[i] for i in test_indexes]
+    categories_train = [train_set_categories[i] for i in train_indexes]
+    categories_test = [train_set_categories[i] for i in test_indexes]
 
-id = 0
-#for every journey in test set
-for test in test_coords:
-    print id, findNeighbors(train_coords, train_id, test)
-    id += 1
+    for test in features_test:
+        print findNeighbors(features_train, categories_train, test)
