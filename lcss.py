@@ -5,6 +5,7 @@ import time
 from haversine import haversine
 import heapq
 
+#another implementation of LCSS
 def LCSS (train_list, test_list):
     train_len = len(train_list)
     test_len = len(test_list)
@@ -58,11 +59,14 @@ trainSet = pd.read_csv(
     converters={"Trajectory": literal_eval}
 )
 
+#trainSet = trainSet[0:2]
+
 testSet = pd.read_csv(
     'test_set_a2.csv', # replace with the correct path
     converters={"Trajectory": literal_eval}
 )
 
+#print "read"
 train_id = trainSet['journeyPatternId']
 train_coords = trainSet['Trajectory']
 test_coords = testSet['Trajectory']
@@ -72,6 +76,7 @@ test_list = []
 id = 0
 test_id = 0
 match_list = []
+match_list2 = []
 
 #for every journey in test_set
 for test_coord in test_coords:
@@ -111,6 +116,7 @@ for test_coord in test_coords:
     for i in range(5):
         match_points, m, t_id, t_list = heapq.heappop(match_list)
         print t_id + str(match_points)
+        print "\n"
         match_points = match_points * -1
         result = None
         while result is None:

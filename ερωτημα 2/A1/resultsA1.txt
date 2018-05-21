@@ -9,6 +9,7 @@
 4.11536447233 km
 01501001journeyPatternId
 57.6175050735 sec
+
 next trip
 0.0 km
 01200001journeyPatternId
@@ -21,6 +22,7 @@ next trip
 3.47847778708 km
 01200001journeyPatternId
 47.256939888 sec
+
 next trip
 0.0 km
 00791001journeyPatternId
@@ -33,6 +35,7 @@ next trip
 4.86698044166 km
 00791001journeyPatternId
 59.4020209312 sec
+
 next trip
 0.0 km
 00010002journeyPatternId
@@ -45,6 +48,7 @@ next trip
 3.45813089732 km
 00010002journeyPatternId
 50.2228209972 sec
+
 next trip
 0.0 km
 01300001journeyPatternId
