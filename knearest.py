@@ -6,12 +6,30 @@ from fastdtw import fastdtw
 from haversine import haversine
 import sklearn
 from sklearn.model_selection import KFold
+from sklearn.metrics import accuracy_score
 
 def majorityVoting(idList):
+    # find unique ids
+    setList = []
+    itemList = []
     for item in idList:
-        print item[1]
-    return "nothing"
-
+        itemList.append(item[1])
+    setList = set(itemList)
+    ids = [0, 0, 0, 0, 0]
+    # find which item
+    for item in setList:
+        if item == itemList[0]:
+            ids[0] += 1
+        elif item == itemList[1]:
+            ids[1] += 1
+        elif item == itemList[2]:
+            ids[2] += 1
+        elif item == itemList[3]:
+            ids[3] += 1
+        elif item == itemList[4]:
+            ids[4] += 1
+    id_index = ids.index(max(ids))
+    return itemList[id_index]
 
 # Find the K nearest neighbors
 def findNeighbors(trainData, trainId, testData):
@@ -63,17 +81,27 @@ train_set_categories = trainSet['journeyPatternId']
 
 # Find the nearest neighbors
 test_set_coords = testSet['Trajectory']
+#test_set_ids = testSet['tripId']
 
+neighbors_list = []
 for test in test_set_coords:
-    print findNeighbors(train_set_coords, train_set_categories, test)
+    neighbors_list.append(findNeighbors(train_set_coords, train_set_categories, test))
 
+#predictions = zip(test_set_ids, neighbors_list)
+trainSet = trainSet[:100]
 # Ten fold cross validation
-"""
+average_accuracy = 0.0
 kf = KFold(n_splits=10)
 for train_indexes, test_indexes in kf.split(trainSet):
-
+    # coords lists
     features_train = [train_set_coords[i] for i in train_indexes]
     features_test = [train_set_coords[i] for i in test_indexes]
+    # journeyPatternId lists
     categories_train = [train_set_categories[i] for i in train_indexes]
     categories_test = [train_set_categories[i] for i in test_indexes]
-"""
+    predictions = []
+    for test in features_test:
+        predictions.append(findNeighbors(features_train, categories_train, test))
+    average_accuracy += accuracy_score(predictions, categories_test)
+
+print average_accuracy / 10
