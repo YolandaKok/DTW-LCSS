@@ -8,6 +8,12 @@ import sklearn
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 
+def write_to_csv(predictions):
+    # Transform list of tuples to a dataframe
+    df = pd.DataFrame(predictions, columns=['Test_Trip_ID', 'Predicted_JourneyPatternID'])
+    # Do not include index column
+    df.to_csv("testSet_JourneyPatternIDs.csv", sep="\t", index=False)
+
 def majorityVoting(idList):
     # find unique ids
     setList = []
@@ -75,7 +81,6 @@ testSet = pd.read_csv(
     converters={"Trajectory": literal_eval}
 )
 
-
 train_set_coords = trainSet['Trajectory']
 train_set_categories = trainSet['journeyPatternId']
 
@@ -87,8 +92,14 @@ neighbors_list = []
 for test in test_set_coords:
     neighbors_list.append(findNeighbors(train_set_coords, train_set_categories, test))
 
+# zip predictions
+ids = range(0, testSet.shape[0])
+predictions = zip(ids, neighbors_list)
+# Write to csv predicted categories
+write_to_csv(predictions)
+
 #predictions = zip(test_set_ids, neighbors_list)
-trainSet = trainSet[:100]
+trainSet = trainSet[:300]
 # Ten fold cross validation
 average_accuracy = 0.0
 kf = KFold(n_splits=10)
