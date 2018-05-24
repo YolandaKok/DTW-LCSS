@@ -18,23 +18,35 @@ def majorityVoting(idList):
     # find unique ids
     setList = []
     itemList = []
+    uniqueList = []
     for item in idList:
-        itemList.append(item[1])
-    setList = set(itemList)
-    ids = [0, 0, 0, 0, 0]
+        print "Distance: " + str(item[0][0]) + "Tripid: " + str(item[1])
+        # print
+        uniqueList.append(item[1])
+        itemList.append((item[1], item[0][0]))
+    setList = set(uniqueList)
+    ids = []
+    for i in range(len(setList)):
+        ids.append(0)
+
+    print setList
     # find which item
+    k = 0
     for item in setList:
-        if item == itemList[0]:
-            ids[0] += 1
-        elif item == itemList[1]:
-            ids[1] += 1
-        elif item == itemList[2]:
-            ids[2] += 1
-        elif item == itemList[3]:
-            ids[3] += 1
-        elif item == itemList[4]:
-            ids[4] += 1
-    id_index = ids.index(max(ids))
+        for i in range(5):
+            if item == itemList[i][0]:
+                ids[k] += 1
+        k += 1
+
+
+    print str(ids) + " ids"
+    distance = [0.0, 0.0, 0.0, 0.0, 0.0]
+    for i in range(5):
+        distance[i] += ids[i] * itemList[i][1]
+
+    print str(distance) + " distance"
+
+    id_index = distance.index(max(distance))
     return itemList[id_index]
 
 # Find the K nearest neighbors
@@ -99,7 +111,7 @@ predictions = zip(ids, neighbors_list)
 write_to_csv(predictions)
 
 #predictions = zip(test_set_ids, neighbors_list)
-trainSet = trainSet[:300]
+trainSet = trainSet[:100]
 # Ten fold cross validation
 average_accuracy = 0.0
 kf = KFold(n_splits=10)
