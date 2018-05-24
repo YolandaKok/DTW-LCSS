@@ -20,34 +20,40 @@ def majorityVoting(idList):
     itemList = []
     uniqueList = []
     for item in idList:
-        print "Distance: " + str(item[0][0]) + "Tripid: " + str(item[1])
-        # print
-        uniqueList.append(item[1])
+        print "Distance: " + str(item[0][0]) + " Tripid: " + str(item[1])
+        # Find only the different elements
+        if item[1] not in uniqueList:
+            uniqueList.append(item[1])
         itemList.append((item[1], item[0][0]))
-    setList = set(uniqueList)
-    ids = []
-    for i in range(len(setList)):
-        ids.append(0)
 
-    print setList
+    ids = []
+    # first argument: how many times the id appears
+    # second argument the sum of the distances
+    for i in range(len(uniqueList)):
+        ids.append([0,0.0])
+
+    print uniqueList
     # find which item
     k = 0
-    for item in setList:
+    for item in uniqueList:
         for i in range(5):
             if item == itemList[i][0]:
-                ids[k] += 1
+                ids[k][0] += 1
+                ids[k][1] += itemList[i][1]
         k += 1
 
+    maximum = ids[0][1]
+    index = 0
+    if len(uniqueList) == 5:
+        index = 0
+    else:
+        for i in range(1,len(uniqueList)):
+            if ids[i][1] > maximum:
+                maximum = ids[i][1]
+                index = i
 
-    print str(ids) + " ids"
-    distance = [0.0, 0.0, 0.0, 0.0, 0.0]
-    for i in range(5):
-        distance[i] += ids[i] * itemList[i][1]
-
-    print str(distance) + " distance"
-
-    id_index = distance.index(max(distance))
-    return itemList[id_index]
+    print index
+    return uniqueList[index]
 
 # Find the K nearest neighbors
 def findNeighbors(trainData, trainId, testData):
@@ -111,7 +117,7 @@ predictions = zip(ids, neighbors_list)
 write_to_csv(predictions)
 
 #predictions = zip(test_set_ids, neighbors_list)
-trainSet = trainSet[:10]
+trainSet = trainSet[:300]
 # Ten fold cross validation
 average_accuracy = 0.0
 kf = KFold(n_splits=10)
