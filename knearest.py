@@ -111,7 +111,7 @@ predictions = zip(ids, neighbors_list)
 write_to_csv(predictions)
 
 #predictions = zip(test_set_ids, neighbors_list)
-trainSet = trainSet[:100]
+trainSet = trainSet[:10]
 # Ten fold cross validation
 average_accuracy = 0.0
 kf = KFold(n_splits=10)
