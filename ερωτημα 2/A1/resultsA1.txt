@@ -1,3 +1,5 @@
+Test trip 0
+
 0.0 km
 01501001journeyPatternId
 3.51027542309 km
@@ -10,7 +12,9 @@
 01501001journeyPatternId
 57.6175050735 sec
 
-next trip
+
+Test trip 1
+
 0.0 km
 01200001journeyPatternId
 2.79253834528 km
@@ -23,7 +27,9 @@ next trip
 01200001journeyPatternId
 47.256939888 sec
 
-next trip
+
+Test trip 2
+
 0.0 km
 00791001journeyPatternId
 4.69811541367 km
@@ -36,7 +42,9 @@ next trip
 00791001journeyPatternId
 59.4020209312 sec
 
-next trip
+
+Test trip 3
+
 0.0 km
 00010002journeyPatternId
 2.45555901977 km
@@ -49,7 +57,9 @@ next trip
 00010002journeyPatternId
 50.2228209972 sec
 
-next trip
+
+Test trip 4
+
 0.0 km
 01300001journeyPatternId
 4.31391065409 km
@@ -61,4 +71,3 @@ next trip
 4.6903051312 km
 01300001journeyPatternId
 47.0410311222 sec
-next trip
